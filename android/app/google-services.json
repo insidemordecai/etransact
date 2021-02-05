@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "6380183656",
+    "project_id": "e-transactions-346",
+    "storage_bucket": "e-transactions-346.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6380183656:android:c3f96be4fb577cf231dbdd",
+        "android_client_info": {
+          "package_name": "com.example.e_transaction"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6380183656-kt3974tp18t0rt5rjdfo393rhvi5t6oi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdT2CwM5wcXkRhllS3OCdM6IOzSmLBQJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6380183656-kt3974tp18t0rt5rjdfo393rhvi5t6oi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
