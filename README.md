@@ -1,4 +1,4 @@
-# e_transaction
+# eTransact
 
 A new Flutter application.
 
