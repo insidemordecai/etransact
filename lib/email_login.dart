@@ -60,7 +60,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                         if (value.isEmpty) {
                           return 'Enter Password';
                         } else if (value.length < 6) {
-                          return 'Password must be atleast 6 characters!';
+                          return 'Password must be at least 6 characters!';
                         }
                         return null;
                       },
