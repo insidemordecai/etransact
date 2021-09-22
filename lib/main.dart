@@ -34,7 +34,7 @@ class IntroScreen extends StatelessWidget {
         navigateAfterSeconds: result != null ? Home(uid: result.uid) : SignUp(),
         seconds: 5,
         title: new Text(
-          'Welcome To eTransaction!',
+          'Welcome To eTransact!',
           style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
         image: Image.asset('assets/images/dart.png', fit: BoxFit.scaleDown),

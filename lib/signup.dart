@@ -17,7 +17,7 @@ class SignUp extends StatelessWidget {
               Widget>[
             Padding(
               padding: EdgeInsets.all(10.0),
-              child: Text("eTransaction",
+              child: Text("eTransact",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
