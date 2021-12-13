@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
+import 'constants.dart';
 
 class EmailLogIn extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _EmailLogInState extends State<EmailLogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Login")),
+        appBar: AppBar(title: Text("Sign In")),
         body: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -72,6 +73,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                         ? CircularProgressIndicator()
                         : RaisedButton(
                       color: Colors.lightBlue,
+                      shape: kRoundedBorder,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           setState(() {
@@ -80,7 +82,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                           logInToFb();
                         }
                       },
-                      child: Text('Submit'),
+                      child: Text('Sign In'),
                     ),
                   )
                 ]))));

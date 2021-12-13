@@ -3,15 +3,16 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'email_login.dart';
 import 'email_signup.dart';
+import 'constants.dart';
 
 class SignUp extends StatelessWidget {
   final String title = "eTransact";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(this.title),
-        ),
+        // appBar: AppBar(
+        //   title: Text(this.title),
+        // ),
         body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
               Widget>[
@@ -20,7 +21,7 @@ class SignUp extends StatelessWidget {
               child: Text("eTransact",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      fontSize: 50,
                       fontFamily: 'Roboto')),
             ),
             Padding(
@@ -28,6 +29,7 @@ class SignUp extends StatelessWidget {
                 child: SignInButton(
                   Buttons.Email,
                   text: "Create Account",
+                  shape: kRoundedBorder,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -40,6 +42,7 @@ class SignUp extends StatelessWidget {
                 child: SignInButton(
                   Buttons.Email,
                   text: "Sign In",
+                  shape: kRoundedBorder,
                   onPressed: () {
                     Navigator.push(
                       context,

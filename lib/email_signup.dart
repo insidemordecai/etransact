@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
+import 'constants.dart';
 
 class EmailSignUp extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Sign Up")),
+        appBar: AppBar(title: Text("Create Account")),
         body: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -115,6 +116,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         ? CircularProgressIndicator()
                         : RaisedButton(
                       color: Colors.lightBlue,
+                      shape: kRoundedBorder,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           setState(() {
