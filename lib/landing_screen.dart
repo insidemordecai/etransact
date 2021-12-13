@@ -5,7 +5,7 @@ import 'email_login.dart';
 import 'email_signup.dart';
 
 class SignUp extends StatelessWidget {
-  final String title = "Sign Up";
+  final String title = "eTransact";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class SignUp extends StatelessWidget {
                 padding: EdgeInsets.all(10.0),
                 child: SignInButton(
                   Buttons.Email,
-                  text: "Sign up with Email",
+                  text: "Create Account",
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -39,7 +39,7 @@ class SignUp extends StatelessWidget {
                 padding: EdgeInsets.all(10.0),
                 child: SignInButton(
                   Buttons.Email,
-                  text: "Log In Using Email",
+                  text: "Sign In",
                   onPressed: () {
                     Navigator.push(
                       context,
