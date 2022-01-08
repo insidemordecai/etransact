@@ -1,42 +1,54 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:pdf_viewer_jk/pdf_viewer_jk.dart';
 
-import 'landing_screen.dart';
+import 'landing_page.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({this.uid});
   final String uid;
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final String title = "Home";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                FirebaseAuth auth = FirebaseAuth.instance;
-                auth.signOut().then((res) {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
-                          (Route<dynamic> route) => false);
-                });
-              },
-            )
-          ],
-        ),
-        body: Center(child: Text('Welcome!')),
-        drawer: NavigateDrawer(uid: this.uid));
+      appBar: AppBar(
+        title: Text(title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.exit_to_app,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              FirebaseAuth auth = FirebaseAuth.instance;
+              auth.signOut().then((res) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LandingPage()),
+                    (Route<dynamic> route) => false);
+              });
+            },
+          )
+        ],
+      ),
+      body: Center(
+        child: Text('Welcome!'),
+      ),
+      drawer: NavigateDrawer(uid: this.widget.uid),
+    );
   }
 }
 
+// Sidebar Drawer
 class NavigateDrawer extends StatefulWidget {
   final String uid;
   NavigateDrawer({Key key, this.uid}) : super(key: key);
@@ -111,3 +123,4 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
     );
   }
 }
+// End of Sidebar Drawer
