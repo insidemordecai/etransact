@@ -1,8 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:pdf_viewer_jk/pdf_viewer_jk.dart';
 
 import 'landing_page.dart';
 import 'package:e_transaction/model/sidebar.dart';
@@ -10,7 +7,7 @@ import 'package:e_transaction/api/firebase_api.dart';
 import 'package:e_transaction/model/firebase_file.dart';
 
 class Home extends StatefulWidget {
-  Home({this.uid});
+  Home({required this.uid});
   final String uid;
 
   @override
@@ -52,14 +49,18 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: FutureBuilder<List<FirebaseFile>>(
-        future: futureFiles, 
-        builder: (context, snapshot){
-          switch (snapshot.connectionState){
+        future: futureFiles,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator(),);
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             default:
               if (snapshot.hasError) {
-                return Center(child: Text('Some error occured'),);
+                return Center(
+                  child: Text('Some error occured'),
+                );
               } else {
                 final files = snapshot.data!;
 
@@ -67,33 +68,29 @@ class _HomeState extends State<Home> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     buildHeader(files.length),
-                    const SizedBox(height: 12,),
+                    const SizedBox(
+                      height: 12,
+                    ),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: files.length,
-                        itemBuilder: (context, index){
-                          final file = files[index];
+                          itemCount: files.length,
+                          itemBuilder: (context, index) {
+                            final file = files[index];
 
-                          return buildFile(context, file);
-                        }),),
+                            return buildFile(context, file);
+                          }),
+                    ),
                   ],
                 );
               }
           }
-        },),
+        },
+      ),
       drawer: NavigateDrawer(uid: this.widget.uid),
     );
   }
 
-    Widget buildFile(BuildContext context, FirebaseFile file) => ListTile(
-        leading: ClipOval(
-          child: Image.network(
-            file.url,
-            width: 52,
-            height: 52,
-            fit: BoxFit.cover,
-          ),
-        ),
+  Widget buildFile(BuildContext context, FirebaseFile file) => ListTile(
         title: Text(
           file.name,
           style: TextStyle(
@@ -115,7 +112,7 @@ class _HomeState extends State<Home> {
           ),
         ),
         title: Text(
-          '$length Files',
+          '$length File(s)',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
