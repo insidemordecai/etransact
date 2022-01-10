@@ -5,6 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:pdf_viewer_jk/pdf_viewer_jk.dart';
 
 import 'landing_page.dart';
+import 'package:e_transaction/model/sidebar.dart';
+import 'package:e_transaction/api/firebase_api.dart';
+import 'package:e_transaction/model/firebase_file.dart';
 
 class Home extends StatefulWidget {
   Home({this.uid});
@@ -16,6 +19,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final String title = "Home";
+  late Future<List<FirebaseFile>> futureFiles;
+
+  @override
+  void initState() {
+    super.initState();
+
+    futureFiles = FirebaseApi.listAll('mordecai.kipngetich/');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,87 +51,76 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: Center(
-        child: Text('Welcome!'),
-      ),
+      body: FutureBuilder<List<FirebaseFile>>(
+        future: futureFiles, 
+        builder: (context, snapshot){
+          switch (snapshot.connectionState){
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator(),);
+            default:
+              if (snapshot.hasError) {
+                return Center(child: Text('Some error occured'),);
+              } else {
+                final files = snapshot.data!;
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildHeader(files.length),
+                    const SizedBox(height: 12,),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: files.length,
+                        itemBuilder: (context, index){
+                          final file = files[index];
+
+                          return buildFile(context, file);
+                        }),),
+                  ],
+                );
+              }
+          }
+        },),
       drawer: NavigateDrawer(uid: this.widget.uid),
     );
   }
-}
 
-// Sidebar Drawer
-class NavigateDrawer extends StatefulWidget {
-  final String uid;
-  NavigateDrawer({Key key, this.uid}) : super(key: key);
-  @override
-  _NavigateDrawerState createState() => _NavigateDrawerState();
-}
+    Widget buildFile(BuildContext context, FirebaseFile file) => ListTile(
+        leading: ClipOval(
+          child: Image.network(
+            file.url,
+            width: 52,
+            height: 52,
+            fit: BoxFit.cover,
+          ),
+        ),
+        title: Text(
+          file.name,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
+            color: Colors.blue,
+          ),
+        ),
+      );
 
-class _NavigateDrawerState extends State<NavigateDrawer> {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountEmail: FutureBuilder(
-                future: FirebaseDatabase.instance
-                    .reference()
-                    .child("Users")
-                    .child(widget.uid)
-                    .once(),
-                builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data.value['email']);
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                }),
-            accountName: FutureBuilder(
-                future: FirebaseDatabase.instance
-                    .reference()
-                    .child("Users")
-                    .child(widget.uid)
-                    .once(),
-                builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data.value['name']);
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                }),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
+  Widget buildHeader(int length) => ListTile(
+        tileColor: Colors.blue,
+        leading: Container(
+          width: 52,
+          height: 52,
+          child: Icon(
+            Icons.file_copy,
+            color: Colors.white,
           ),
-          ListTile(
-            leading: new IconButton(
-              icon: new Icon(Icons.home, color: Colors.black),
-              onPressed: () => null,
-            ),
-            title: Text('Home'),
-            onTap: () {
-              print(widget.uid);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Home(uid: widget.uid)),
-              );
-            },
+        ),
+        title: Text(
+          '$length Files',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white,
           ),
-          ListTile(
-            leading: new IconButton(
-              icon: new Icon(Icons.settings, color: Colors.black),
-              onPressed: () => null,
-            ),
-            title: Text('Settings'),
-            onTap: () {
-              print(widget.uid);
-            },
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      );
 }
-// End of Sidebar Drawer
