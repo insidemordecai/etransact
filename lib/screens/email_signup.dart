@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
-import 'constants.dart';
+import 'package:e_transaction/constants.dart';
 
 class EmailSignUp extends StatefulWidget {
   @override

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
-import 'constants.dart';
+import 'package:e_transaction/constants.dart';
 
 class EmailLogIn extends StatefulWidget {
   @override
