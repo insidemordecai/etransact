@@ -3,7 +3,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'email_login.dart';
 import 'email_signup.dart';
-import 'constants.dart';
+import 'package:e_transaction/constants.dart';
 
 class LandingPage extends StatelessWidget {
   final String title = "eTransact";
