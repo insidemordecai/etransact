@@ -1,3 +1,4 @@
+import 'package:e_transaction/model/palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +18,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final String title = "Home";
   late Future<List<FirebaseFile>> futureFiles;
+  final String? userEmail = FirebaseAuth.instance.currentUser!.email;
+  late String userDirectory;
 
   @override
   void initState() {
     super.initState();
 
-    futureFiles = FirebaseApi.listAll('mordecai.kipngetich/');
+    userDirectory = (userEmail! + '/');
+    futureFiles = FirebaseApi.listAll(userDirectory);
   }
 
   @override
@@ -64,23 +68,26 @@ class _HomeState extends State<Home> {
               } else {
                 final files = snapshot.data!;
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildHeader(files.length),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: files.length,
-                          itemBuilder: (context, index) {
-                            final file = files[index];
+                return RefreshIndicator(
+                  onRefresh: _pullRefresh,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildHeader(files.length),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: files.length,
+                            itemBuilder: (context, index) {
+                              final file = files[index];
 
-                            return buildFile(context, file);
-                          }),
-                    ),
-                  ],
+                              return buildFile(context, file);
+                            }),
+                      ),
+                    ],
+                  ),
                 );
               }
           }
@@ -90,19 +97,33 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // update futureFiles with up-to-date data
+  Future<void> _pullRefresh() async {
+    List<FirebaseFile> freshFutureFiles =
+        await FirebaseApi.listAll(userDirectory);
+    setState(() {
+      futureFiles = Future.value(freshFutureFiles);
+    });
+  }
+
+  // create tiles for the data
   Widget buildFile(BuildContext context, FirebaseFile file) => ListTile(
-        title: Text(
-          file.name,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-            color: Colors.blue,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            file.name,
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              // decoration: TextDecoration.underline,
+              color: Colors.black,
+            ),
           ),
         ),
       );
 
+  // update header with number of files
   Widget buildHeader(int length) => ListTile(
-        tileColor: Colors.blue,
+        tileColor: Palette.kTeal,
         leading: Container(
           width: 52,
           height: 52,
