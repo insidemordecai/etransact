@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import 'package:e_transaction/screens/home.dart';
-
 class NavigateDrawer extends StatefulWidget {
   final String uid;
   NavigateDrawer({Key? key, required this.uid}) : super(key: key);
@@ -28,7 +26,9 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                   if (snapshot.hasData) {
                     return Text(snapshot.data!.value['email']);
                   } else {
-                    return CircularProgressIndicator();
+                    return CircularProgressIndicator(
+                      color: Colors.white10,
+                    );
                   }
                 }),
             accountName: FutureBuilder(
@@ -41,12 +41,14 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                   if (snapshot.hasData) {
                     return Text(snapshot.data!.value['name']);
                   } else {
-                    return CircularProgressIndicator();
+                    return CircularProgressIndicator(
+                      color: Colors.white10,
+                    );
                   }
                 }),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
+            // decoration: BoxDecoration(
+            //   color: Colors.blue,
+            // ),
           ),
           ListTile(
             leading: new IconButton(
@@ -56,22 +58,19 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
             title: Text('Home'),
             onTap: () {
               print(widget.uid);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Home(uid: widget.uid)),
-              );
+              Navigator.of(context).pop();
             },
           ),
-          ListTile(
-            leading: new IconButton(
-              icon: new Icon(Icons.settings, color: Colors.black),
-              onPressed: () => null,
-            ),
-            title: Text('Settings'),
-            onTap: () {
-              print(widget.uid);
-            },
-          ),
+          // ListTile(
+          //   leading: new IconButton(
+          //     icon: new Icon(Icons.settings, color: Colors.black),
+          //     onPressed: () => null,
+          //   ),
+          //   title: Text('Settings'),
+          //   onTap: () {
+          //     print(widget.uid);
+          //   },
+          // ),
         ],
       ),
     );
