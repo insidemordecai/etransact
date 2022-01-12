@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'home.dart';
 import 'package:e_transaction/constants.dart';
+import 'package:e_transaction/model/palette.dart';
 
 class EmailSignUp extends StatefulWidget {
   @override
@@ -116,7 +117,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     ? CircularProgressIndicator()
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.lightBlue,
+                          primary: Palette.kTeal,
                           shape: kRoundedBorder,
                         ),
                         onPressed: () {

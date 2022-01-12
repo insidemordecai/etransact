@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'home.dart';
 import 'package:e_transaction/constants.dart';
+import 'package:e_transaction/model/palette.dart';
 
 class EmailLogIn extends StatefulWidget {
   @override
@@ -60,9 +61,10 @@ class _EmailLogInState extends State<EmailLogIn> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Enter Password';
-                    } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters!';
                     }
+                    // else if (value.length < 6) {
+                    //   return 'Password must be at least 6 characters!';
+                    // }
                     return null;
                   },
                 ),
@@ -73,7 +75,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                     ? CircularProgressIndicator()
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.lightBlue,
+                          primary: Palette.kTeal,
                           shape: kRoundedBorder,
                         ),
                         onPressed: () {
