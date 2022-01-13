@@ -1,4 +1,4 @@
-import 'package:e_transaction/model/palette.dart';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +6,9 @@ import 'landing_page.dart';
 import 'package:e_transaction/model/sidebar.dart';
 import 'package:e_transaction/api/firebase_api.dart';
 import 'package:e_transaction/model/firebase_file.dart';
+import 'package:e_transaction/model/palette.dart';
+import 'package:e_transaction/api/pdf_api.dart';
+import 'package:e_transaction/screens/pdf_viewer.dart';
 
 class Home extends StatefulWidget {
   Home({required this.uid});
@@ -119,6 +122,13 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
+        onTap: () async {
+          final url = (userDirectory + file.name);
+          final pdfFile = await PDFApi.loadFirebase(url);
+
+          if (pdfFile == null) return;
+          openPDF(context, pdfFile);
+        },
       );
 
   // update header with number of files
@@ -140,5 +150,10 @@ class _HomeState extends State<Home> {
             color: Colors.white,
           ),
         ),
+      );
+
+  void openPDF(BuildContext context, File pdfFile) =>
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PDFViewerPage(file: pdfFile)),
       );
 }
