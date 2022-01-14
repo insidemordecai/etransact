@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final String title = "Home";
+  final String title = "eTransact";
   late Future<List<FirebaseFile>> futureFiles;
   final String? userEmail = FirebaseAuth.instance.currentUser!.email;
   late String userDirectory;
@@ -110,25 +110,27 @@ class _HomeState extends State<Home> {
   }
 
   // create tiles for the data
-  Widget buildFile(BuildContext context, FirebaseFile file) => ListTile(
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            file.name,
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              // decoration: TextDecoration.underline,
-              color: Colors.black,
+  Widget buildFile(BuildContext context, FirebaseFile file) => Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+        child: Card(
+          child: ListTile(
+            title: Text(
+              file.name,
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                // decoration: TextDecoration.underline,
+                color: Colors.black,
+              ),
             ),
+            onTap: () async {
+              final url = (userDirectory + file.name);
+              final pdfFile = await PDFApi.loadFirebase(url);
+
+              if (pdfFile == null) return;
+              openPDF(context, pdfFile);
+            },
           ),
         ),
-        onTap: () async {
-          final url = (userDirectory + file.name);
-          final pdfFile = await PDFApi.loadFirebase(url);
-
-          if (pdfFile == null) return;
-          openPDF(context, pdfFile);
-        },
       );
 
   // update header with number of files
