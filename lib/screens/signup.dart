@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'package:e_transaction/constants.dart';
 
-class EmailSignUp extends StatefulWidget {
+class SignUp extends StatefulWidget {
+  static const String id = 'signup';
+
   @override
-  _EmailSignUpState createState() => _EmailSignUpState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _EmailSignUpState extends State<EmailSignUp> {
+class _SignUpState extends State<SignUp> {
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -146,7 +148,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
         isLoading = false;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Home(uid: result.user!.uid)),
+          // MaterialPageRoute(builder: (context) => Home(uid: result.user!.uid)),
+          MaterialPageRoute(builder: (context) => Home()),
         );
       });
     }).catchError((err) {

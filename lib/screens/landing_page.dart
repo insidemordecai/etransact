@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'email_login.dart';
-import 'email_signup.dart';
+import 'login.dart';
+import 'signup.dart';
 import 'package:e_transaction/constants.dart';
 
 class LandingPage extends StatelessWidget {
   final String title = "eTransact";
+  static const String id = 'landing_page';
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class LandingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EmailSignUp()),
+                      MaterialPageRoute(builder: (context) => SignUp()),
                     );
                   },
                   child: Text('Create Account'),
@@ -51,7 +52,7 @@ class LandingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EmailLogIn()),
+                      MaterialPageRoute(builder: (context) => LogIn()),
                     );
                   },
                   child: Text('Log In'),
