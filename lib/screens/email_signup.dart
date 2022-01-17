@@ -117,6 +117,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: kRoundedBorder,
+                          fixedSize: kFixedSize,
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {

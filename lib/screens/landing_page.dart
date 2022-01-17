@@ -30,6 +30,7 @@ class LandingPage extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: kRoundedBorder,
+                    fixedSize: kFixedSize,
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -45,6 +46,7 @@ class LandingPage extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: kRoundedBorder,
+                    fixedSize: kFixedSize,
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -52,7 +54,7 @@ class LandingPage extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => EmailLogIn()),
                     );
                   },
-                  child: Text('Sign In'),
+                  child: Text('Log In'),
                 ),
               ),
             ]),

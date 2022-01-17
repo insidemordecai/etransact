@@ -19,7 +19,7 @@ class _EmailLogInState extends State<EmailLogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Sign In")),
+        appBar: AppBar(title: Text("Log In")),
         body: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -75,6 +75,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: kRoundedBorder,
+                          fixedSize: kFixedSize,
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -84,7 +85,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                             logInToFb();
                           }
                         },
-                        child: Text('Sign In'),
+                        child: Text('Log In'),
                       ),
               )
             ]))));
