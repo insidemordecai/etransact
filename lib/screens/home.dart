@@ -11,8 +11,7 @@ import 'package:e_transaction/api/pdf_api.dart';
 import 'package:e_transaction/screens/pdf_viewer.dart';
 
 class Home extends StatefulWidget {
-  Home({required this.uid});
-  final String uid;
+  static const String id = 'home';
 
   @override
   State<Home> createState() => _HomeState();
@@ -96,7 +95,7 @@ class _HomeState extends State<Home> {
           }
         },
       ),
-      drawer: NavigateDrawer(uid: this.widget.uid),
+      drawer: NavigateDrawer(),
     );
   }
 
