@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'login.dart';
 import 'signup.dart';
-import 'package:e_transaction/constants.dart';
+import 'package:etransact/constants.dart';
 
 class LandingPage extends StatelessWidget {
   final String title = "eTransact";

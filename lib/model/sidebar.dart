@@ -18,6 +18,8 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 future:
                     FirebaseDatabase.instance.reference().child("Users").once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
+                  print("ERROR");
+                  print(snapshot);
                   if (snapshot.hasData) {
                     return Text(snapshot.data!.value['email']);
                   } else {

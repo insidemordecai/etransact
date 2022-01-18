@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'firebase_options.dart';
 import 'screens/home.dart';
 import 'screens/landing_page.dart';
 import 'model/palette.dart';
-import 'package:e_transaction/screens/login.dart';
-import 'package:e_transaction/screens/signup.dart';
+import 'package:etransact/screens/login.dart';
+import 'package:etransact/screens/signup.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
