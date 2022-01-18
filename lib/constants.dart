@@ -5,7 +5,7 @@ RoundedRectangleBorder kRoundedBorder = RoundedRectangleBorder(
   borderRadius: BorderRadius.circular(18.0),
 );
 
-const kFixedSize = const Size(200, 30); //for the buttons
+const kFixedSize = const Size(200, 40); //for the buttons
 
 const kTextFieldDecoration = InputDecoration(
   hintText: '',

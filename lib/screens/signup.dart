@@ -1,6 +1,9 @@
+//large based on implementation of https://github.com/itsmordecai/flash-chat/blob/master/lib/screens/registration_screen.dart
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'home.dart';
 import 'package:e_transaction/constants.dart';
@@ -13,35 +16,41 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  bool isLoading = false;
-  final _formKey = GlobalKey<FormState>();
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
   DatabaseReference dbRef =
       FirebaseDatabase.instance.reference().child("Users");
-  TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  bool showSpinner = false;
+
+  late String email;
+  late String password;
+  late String name;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Create Account")),
-        body: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-                child: Column(children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    labelText: "Enter User Name",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+      appBar: AppBar(title: Text("Create Account")),
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // using TextFormField (instead of TextField) to make use of validate operations
+                TextFormField(
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    name = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Enter user name',
                   ),
-                  // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Enter User Name';
@@ -49,18 +58,18 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: "Enter Email",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Enter your email',
                   ),
-                  // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Enter an Email Address';
@@ -70,38 +79,18 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TextFormField(
-                  controller: ageController,
-                  decoration: InputDecoration(
-                    labelText: "Enter Age",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter Age';
-                    }
-                    return null;
-                  },
+                SizedBox(
+                  height: 8.0,
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TextFormField(
+                TextFormField(
                   obscureText: true,
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    labelText: "Enter Password",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Enter your password',
                   ),
-                  // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Enter Password';
@@ -111,73 +100,47 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: isLoading
-                    ? CircularProgressIndicator()
-                    : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: kRoundedBorder,
-                          fixedSize: kFixedSize,
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            registerToFb();
-                          }
-                        },
-                        child: Text('Submit'),
-                      ),
-              )
-            ]))));
-  }
+                SizedBox(
+                  height: 24.0,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: kRoundedBorder,
+                    fixedSize: kFixedSize,
+                  ),
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        showSpinner = true;
+                      });
 
-  void registerToFb() {
-    firebaseAuth
-        .createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text)
-        .then((result) {
-      dbRef.child(result.user!.uid).set({
-        "email": emailController.text,
-        "age": ageController.text,
-        "name": nameController.text
-      }).then((res) {
-        isLoading = false;
-        Navigator.pushReplacement(
-          context,
-          // MaterialPageRoute(builder: (context) => Home(uid: result.user!.uid)),
-          MaterialPageRoute(builder: (context) => Home()),
-        );
-      });
-    }).catchError((err) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Error"),
-              content: Text(err.message),
-              actions: [
-                TextButton(
-                  child: Text("Ok"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
+                      try {
+                        await _auth
+                            .createUserWithEmailAndPassword(
+                                email: email, password: password)
+                            .then((result) {
+                          dbRef.child(result.user!.uid).set({
+                            "email": email,
+                            "name": name,
+                          });
+                        });
+                        Navigator.pushNamed(context, Home.id);
+
+                        setState(() {
+                          showSpinner = false;
+                        });
+                      } catch (e) {
+                        print(e);
+                      }
+                    }
                   },
-                )
+                  child: Text('Sign Up'),
+                ),
               ],
-            );
-          });
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    ageController.dispose();
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
