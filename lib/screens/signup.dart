@@ -123,9 +123,10 @@ class _SignUpState extends State<SignUp> {
                           dbRef.child(result.user!.uid).set({
                             "email": email,
                             "name": name,
+                          }).then((res) {
+                            Navigator.pushNamed(context, Home.id);
                           });
                         });
-                        Navigator.pushNamed(context, Home.id);
 
                         setState(() {
                           showSpinner = false;
