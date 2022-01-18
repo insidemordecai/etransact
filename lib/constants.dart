@@ -1,4 +1,4 @@
-import 'package:e_transaction/model/palette.dart';
+import 'package:etransact/model/palette.dart';
 import 'package:flutter/material.dart';
 
 RoundedRectangleBorder kRoundedBorder = RoundedRectangleBorder(

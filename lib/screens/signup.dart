@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'home.dart';
-import 'package:e_transaction/constants.dart';
+import 'package:etransact/constants.dart';
 
 class SignUp extends StatefulWidget {
   static const String id = 'signup';

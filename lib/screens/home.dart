@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'landing_page.dart';
-import 'package:e_transaction/model/sidebar.dart';
-import 'package:e_transaction/api/firebase_api.dart';
-import 'package:e_transaction/model/firebase_file.dart';
-import 'package:e_transaction/model/palette.dart';
-import 'package:e_transaction/api/pdf_api.dart';
-import 'package:e_transaction/screens/pdf_viewer.dart';
+import 'package:etransact/model/sidebar.dart';
+import 'package:etransact/api/firebase_api.dart';
+import 'package:etransact/model/firebase_file.dart';
+import 'package:etransact/model/palette.dart';
+import 'package:etransact/api/pdf_api.dart';
+import 'package:etransact/screens/pdf_viewer.dart';
 
 class Home extends StatefulWidget {
   static const String id = 'home';

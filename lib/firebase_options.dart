@@ -27,7 +27,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -41,22 +44,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAdT2CwM5wcXkRhllS3OCdM6IOzSmLBQJ4',
-    appId: '1:6380183656:android:c3f96be4fb577cf231dbdd',
-    messagingSenderId: '6380183656',
-    projectId: 'e-transactions-346',
-    databaseURL: 'https://e-transactions-346-default-rtdb.firebaseio.com',
-    storageBucket: 'e-transactions-346.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCiE9-nJibafo8Uc8vMWnmWTmw7GXFWiTg',
-    appId: '1:6380183656:ios:9b0f9d076179ce8531dbdd',
-    messagingSenderId: '6380183656',
-    projectId: 'e-transactions-346',
-    databaseURL: 'https://e-transactions-346-default-rtdb.firebaseio.com',
-    storageBucket: 'e-transactions-346.appspot.com',
-    iosClientId: '6380183656-cojt07r4kvvu1qga6uqr4p5oh1p7qphp.apps.googleusercontent.com',
-    iosBundleId: 'com.eTransact.app',
+    apiKey: 'The API Key',
+    appId: '1:946439129619:android:a5efedbcb978d9ed93cde6',
+    messagingSenderId: '946439129619',
+    projectId: 'cs-project-7200e',
+    databaseURL: 'https://cs-project-7200e-default-rtdb.firebaseio.com',
+    storageBucket: 'cs-project-7200e.appspot.com',
   );
 }
