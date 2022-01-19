@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class NavigateDrawer extends StatefulWidget {
+  final String uid;
+  NavigateDrawer({Key? key, required this.uid}) : super(key: key);
+
   @override
   _NavigateDrawerState createState() => _NavigateDrawerState();
 }
 
 class _NavigateDrawerState extends State<NavigateDrawer> {
+  DatabaseReference dbRef =
+      FirebaseDatabase.instance.reference().child("Users"); // get users data
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -15,11 +21,8 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
         children: <Widget>[
           UserAccountsDrawerHeader(
             accountEmail: FutureBuilder(
-                future:
-                    FirebaseDatabase.instance.reference().child("Users").once(),
+                future: dbRef.child(widget.uid).once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-                  print("ERROR");
-                  print(snapshot);
                   if (snapshot.hasData) {
                     return Text(snapshot.data!.value['email']);
                   } else {
@@ -29,8 +32,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                   }
                 }),
             accountName: FutureBuilder(
-                future:
-                    FirebaseDatabase.instance.reference().child("Users").once(),
+                future: dbRef.child(widget.uid).once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
                     return Text(snapshot.data!.value['name']);
@@ -48,7 +50,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
             ),
             title: Text('Home'),
             onTap: () {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             },
           ),
         ],
@@ -56,4 +58,3 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
     );
   }
 }
-// End of Sidebar Drawer
