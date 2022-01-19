@@ -74,7 +74,12 @@ class _LogInState extends State<LogIn> {
                       email: email,
                       password: password,
                     );
-                    Navigator.pushNamed(context, Home.id);
+                    User? loggedUser = FirebaseAuth.instance.currentUser;
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Home(uid: loggedUser!.uid)),
+                        (Route<dynamic> route) => false);
                     setState(() {
                       showSpinner = false;
                     });

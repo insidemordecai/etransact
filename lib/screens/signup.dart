@@ -124,7 +124,14 @@ class _SignUpState extends State<SignUp> {
                             "email": email,
                             "name": name,
                           }).then((res) {
-                            Navigator.pushNamed(context, Home.id);
+                            User? loggedUser =
+                                FirebaseAuth.instance.currentUser;
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Home(uid: loggedUser!.uid)),
+                                (Route<dynamic> route) => false);
                           });
                         });
 

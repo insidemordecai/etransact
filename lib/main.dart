@@ -20,8 +20,8 @@ Future main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // check for logged in user
-    User? result = FirebaseAuth.instance.currentUser;
+    // check for already logged in user on start up
+    User? loggedUser = FirebaseAuth.instance.currentUser;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -30,12 +30,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Palette.kTeal,
       ),
       // if user is logged in go to home, if not -> landingpage
-      home: result != null ? Home() : LandingPage(),
+      home: loggedUser != null ? Home(uid: loggedUser.uid) : LandingPage(),
       routes: {
         LandingPage.id: (context) => LandingPage(),
         LogIn.id: (context) => LogIn(),
         SignUp.id: (context) => SignUp(),
-        Home.id: (context) => Home(),
       },
     );
   }
