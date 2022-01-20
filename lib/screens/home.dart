@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'landing_page.dart';
 import 'package:etransact/model/sidebar.dart';
 import 'package:etransact/api/firebase_api.dart';
 import 'package:etransact/model/firebase_file.dart';
@@ -37,23 +36,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              FirebaseAuth auth = FirebaseAuth.instance;
-              auth.signOut().then((res) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => LandingPage()),
-                    (Route<dynamic> route) => false);
-              });
-            },
-          )
-        ],
       ),
       body: FutureBuilder<List<FirebaseFile>>(
         future: futureFiles,

@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+
+import '../constants.dart';
+import 'package:etransact/screens/landing_page.dart';
 
 class NavigateDrawer extends StatefulWidget {
   final String uid;
@@ -16,15 +20,21 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
+        // padding: EdgeInsets.zero, - it was this if parent was list view
         children: <Widget>[
           UserAccountsDrawerHeader(
             accountEmail: FutureBuilder(
                 future: dbRef.child(widget.uid).once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    return Text(snapshot.data!.value['email']);
+                    return Text(
+                      snapshot.data!.value['email'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 14,
+                      ),
+                    );
                   } else {
                     return CircularProgressIndicator(
                       color: Colors.white10,
@@ -35,7 +45,13 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 future: dbRef.child(widget.uid).once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    return Text(snapshot.data!.value['name']);
+                    return Text(
+                      snapshot.data!.value['name'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18,
+                      ),
+                    );
                   } else {
                     return CircularProgressIndicator(
                       color: Colors.white10,
@@ -43,15 +59,44 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                   }
                 }),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.home,
-              color: Colors.black,
+          Expanded(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(
+                    Icons.home_rounded,
+                    color: Colors.black,
+                  ),
+                  minLeadingWidth: 20,
+                  title: Text(
+                    'Home',
+                    textScaleFactor: 1.0,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
             ),
-            title: Text('Home'),
-            onTap: () {
-              Navigator.pop(context);
-            },
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: kRoundedBorder,
+                fixedSize: const Size(250, 30),
+              ),
+              onPressed: () {
+                FirebaseAuth auth = FirebaseAuth.instance;
+                auth.signOut().then((res) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LandingPage()),
+                      (Route<dynamic> route) => false);
+                });
+              },
+              child: Text('Log Out'),
+            ),
           ),
         ],
       ),
