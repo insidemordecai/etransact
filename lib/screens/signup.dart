@@ -109,47 +109,7 @@ class _SignUpState extends State<SignUp> {
                     shape: kRoundedBorder,
                     fixedSize: kFixedSize,
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      setState(() {
-                        showSpinner = true;
-                      });
-
-                      try {
-                        await _auth
-                            .createUserWithEmailAndPassword(
-                                email: email, password: password)
-                            .then((result) {
-                          dbRef.child(result.user!.uid).set({
-                            "email": email,
-                            "name": name,
-                          }).then((res) {
-                            User? loggedUser =
-                                FirebaseAuth.instance.currentUser;
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Home(uid: loggedUser!.uid)),
-                                (Route<dynamic> route) => false);
-                          });
-                        });
-
-                        setState(() {
-                          showSpinner = false;
-                        });
-                      } catch (e) {
-                        print(e);
-                        String errorMessage = e.toString();
-
-                        setState(() {
-                          showSpinner = false;
-                        });
-
-                        Fluttertoast.showToast(msg: errorMessage);
-                      }
-                    }
-                  },
+                  onPressed: _performSignUp,
                   child: Text('Sign Up'),
                 ),
               ],
@@ -158,5 +118,44 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  _performSignUp() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        showSpinner = true;
+      });
+
+      try {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((result) {
+          dbRef.child(result.user!.uid).set({
+            "email": email,
+            "name": name,
+          }).then((res) {
+            User? loggedUser = FirebaseAuth.instance.currentUser;
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Home(uid: loggedUser!.uid)),
+                (Route<dynamic> route) => false);
+          });
+        });
+
+        setState(() {
+          showSpinner = false;
+        });
+      } catch (e) {
+        print(e);
+        String errorMessage = e.toString();
+
+        setState(() {
+          showSpinner = false;
+        });
+
+        Fluttertoast.showToast(msg: errorMessage);
+      }
+    }
   }
 }

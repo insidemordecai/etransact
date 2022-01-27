@@ -65,56 +65,7 @@ class _LogInState extends State<LogIn> {
                   shape: kRoundedBorder,
                   fixedSize: kFixedSize,
                 ),
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    await _auth.signInWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
-                    User? loggedUser = FirebaseAuth.instance.currentUser;
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Home(uid: loggedUser!.uid)),
-                        (Route<dynamic> route) => false);
-                    setState(() {
-                      showSpinner = false;
-                    });
-                  } on FirebaseAuthException catch (e) {
-                    if (e.code == 'user-not-found') {
-                      print('No user found for that email');
-                      setState(() {
-                        showSpinner = false;
-                      });
-
-                      Fluttertoast.showToast(
-                        msg:
-                            'No user found for that email. Re-enter credentials',
-                      );
-                    } else if (e.code == 'wrong-password') {
-                      print('Wrong password provided for that user');
-                      setState(() {
-                        showSpinner = false;
-                      });
-
-                      Fluttertoast.showToast(
-                        msg: 'Wrong password. Re-enter credentials',
-                      );
-                    } else {
-                      print(e);
-                      setState(() {
-                        showSpinner = false;
-                      });
-
-                      Fluttertoast.showToast(
-                        msg: 'Error. Try again!',
-                      );
-                    }
-                  }
-                },
+                onPressed: _performLogIn,
                 child: Text('Log In'),
               ),
             ],
@@ -122,5 +73,54 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
+  }
+
+  _performLogIn() async {
+    setState(() {
+      showSpinner = true;
+    });
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      User? loggedUser = FirebaseAuth.instance.currentUser;
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Home(uid: loggedUser!.uid)),
+          (Route<dynamic> route) => false);
+      setState(() {
+        showSpinner = false;
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email');
+        setState(() {
+          showSpinner = false;
+        });
+
+        Fluttertoast.showToast(
+          msg: 'No user found for that email. Re-enter credentials',
+        );
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user');
+        setState(() {
+          showSpinner = false;
+        });
+
+        Fluttertoast.showToast(
+          msg: 'Wrong password. Re-enter credentials',
+        );
+      } else {
+        print(e);
+        setState(() {
+          showSpinner = false;
+        });
+
+        Fluttertoast.showToast(
+          msg: 'Error. Try again!',
+        );
+      }
+    }
   }
 }
