@@ -16,8 +16,12 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  final String title = "eTransact";
+
+  final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   bool showSpinner = false;
+  bool _isHidden = true;
 
   late String email;
   late String password;
@@ -25,54 +29,86 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Log In")),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your email',
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 50,
+                        fontFamily: 'Roboto'),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              TextField(
-                obscureText: true,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your password',
+                SizedBox(
+                  height: 30.0,
                 ),
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: kRoundedBorder,
-                  fixedSize: kFixedSize,
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Email',
+                  ),
                 ),
-                onPressed: _performLogIn,
-                child: Text('Log In'),
-              ),
-            ],
+                SizedBox(
+                  height: 24.0,
+                ),
+                TextFormField(
+                  obscureText: _isHidden,
+                  textInputAction: TextInputAction.done,
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  onFieldSubmitted: (value) {
+                    _performLogIn();
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                    hintText: 'Password',
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: IconButton(
+                        onPressed: _togglePasswordView,
+                        icon: Icon(
+                          _isHidden ? Icons.visibility : Icons.visibility_off,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: kRoundedBorder,
+                    fixedSize: kFixedSize,
+                  ),
+                  onPressed: _performLogIn,
+                  child: Text('Log In'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 
   _performLogIn() async {

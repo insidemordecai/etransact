@@ -17,13 +17,15 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final String title = "eTransact";
+
   final _auth = FirebaseAuth.instance;
   DatabaseReference dbRef =
       FirebaseDatabase.instance.reference().child("Users");
 
   final _formKey = GlobalKey<FormState>();
-
   bool showSpinner = false;
+  bool _isHidden = true;
 
   late String email;
   late String password;
@@ -32,7 +34,6 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Create Account")),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Form(
@@ -41,16 +42,28 @@ class _SignUpState extends State<SignUp> {
             padding: EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 50,
+                        fontFamily: 'Roboto'),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
                 // using TextFormField (instead of TextField) to make use of validate operations
                 TextFormField(
-                  textAlign: TextAlign.center,
+                  textInputAction: TextInputAction.next,
                   onChanged: (value) {
                     name = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter user name',
+                    hintText: 'User Name',
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -64,12 +77,12 @@ class _SignUpState extends State<SignUp> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
+                  textInputAction: TextInputAction.next,
                   onChanged: (value) {
                     email = value;
                   },
                   decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your email',
+                    hintText: 'Email',
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -84,13 +97,25 @@ class _SignUpState extends State<SignUp> {
                   height: 8.0,
                 ),
                 TextFormField(
-                  obscureText: true,
-                  textAlign: TextAlign.center,
+                  obscureText: _isHidden,
+                  textInputAction: TextInputAction.done,
                   onChanged: (value) {
                     password = value;
                   },
+                  onFieldSubmitted: (value) {
+                    _performSignUp();
+                  },
                   decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your password',
+                    hintText: 'Password',
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: IconButton(
+                        onPressed: _togglePasswordView,
+                        icon: Icon(
+                          _isHidden ? Icons.visibility : Icons.visibility_off,
+                        ),
+                      ),
+                    ),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -118,6 +143,12 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 
   _performSignUp() async {
