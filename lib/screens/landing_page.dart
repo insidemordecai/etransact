@@ -33,10 +33,7 @@ class LandingPage extends StatelessWidget {
                     fixedSize: kFixedSize,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
-                    );
+                    Navigator.pushNamed(context, SignUp.id);
                   },
                   child: Text('Create Account'),
                 ),
@@ -49,10 +46,7 @@ class LandingPage extends StatelessWidget {
                     fixedSize: kFixedSize,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LogIn()),
-                    );
+                    Navigator.pushNamed(context, LogIn.id);
                   },
                   child: Text('Log In'),
                 ),
