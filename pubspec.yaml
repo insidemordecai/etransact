@@ -13,10 +13,10 @@ dependencies:
 
   cupertino_icons: ^1.0.3
 
-  firebase_database: ^7.2.2
   firebase_core: ^1.11.0
   firebase_storage: ^10.2.5
   firebase_auth: ^3.3.5
+  firebase_database: ^8.2.0
 
   path_provider: ^2.0.8
   flutter_pdfview: ^1.2.1
