@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../constants.dart';
 import 'package:etransact/screens/landing_page.dart';
+import 'package:etransact/constants.dart';
 
 class NavigateDrawer extends StatefulWidget {
   final String uid;
@@ -68,10 +68,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                     color: Colors.black,
                   ),
                   minLeadingWidth: 20,
-                  title: Text(
-                    'Home',
-                    textScaleFactor: 1.0,
-                  ),
+                  title: Text('Home'),
                   onTap: () {
                     Navigator.pop(context);
                   },
