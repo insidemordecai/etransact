@@ -1,4 +1,4 @@
-//large based on implementation of https://github.com/itsmordecai/flash-chat/blob/master/lib/screens/registration_screen.dart
+//largely based on Flash Chat registration 
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
