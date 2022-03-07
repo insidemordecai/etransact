@@ -1,4 +1,4 @@
-//largely based on https://github.com/itsmordecai/flash-chat/blob/master/lib/screens/login_screen.dart
+//largely based on Flash Chat login screen
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
