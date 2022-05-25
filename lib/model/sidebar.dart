@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 
 import 'package:etransact/screens/landing_page.dart';
 import 'package:etransact/constants.dart';
+import 'package:etransact/screens/support.dart';
 
 class NavigateDrawer extends StatefulWidget {
   final String uid;
@@ -73,6 +74,17 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                     Navigator.pop(context);
                   },
                 ),
+                ListTile(
+                  leading: Icon(
+                    Icons.support_agent_rounded,
+                    color: Colors.black,
+                  ),
+                  minLeadingWidth: 20,
+                  title: Text('Support'),
+                  onTap: () {
+                    Navigator.pushNamed(context, Support.id);
+                  },
+                )
               ],
             ),
           ),

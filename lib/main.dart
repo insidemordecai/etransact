@@ -1,3 +1,4 @@
+import 'package:etransact/screens/support.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         LandingPage.id: (context) => LandingPage(),
         LogIn.id: (context) => LogIn(),
         SignUp.id: (context) => SignUp(),
+        Support.id:(context) => Support()
       },
     );
   }
