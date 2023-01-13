@@ -63,7 +63,7 @@ class Support extends StatelessWidget {
               ),
               SizedBox(height: 24),
               Text(
-                '***REMOVED***',
+                'contact@insidemordecai.com',
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 24,
