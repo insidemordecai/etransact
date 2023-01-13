@@ -22,6 +22,8 @@ dependencies:
   flutter_pdfview: ^1.2.1
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
   fluttertoast: ^8.0.8
+dependency_overrides:
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_test:
