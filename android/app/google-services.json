@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "946439129619",
+    "firebase_url": "https://cs-project-7200e-default-rtdb.firebaseio.com",
+    "project_id": "cs-project-7200e",
+    "storage_bucket": "cs-project-7200e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946439129619:android:a5efedbcb978d9ed93cde6",
+        "android_client_info": {
+          "package_name": "com.example.etransact"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946439129619-irp803j8nuomumopvlusg1ll1o7f6mch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIfObn92VFBTnWSAKawEbGqA6dMkPXHmQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946439129619-irp803j8nuomumopvlusg1ll1o7f6mch.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
